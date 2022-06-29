@@ -5,13 +5,14 @@
 #define maxSize 10
 
 void delete (char sentence[][maxSize], char word[], int *size);
-void insert (char sentence[][maxSize], char word[], int place, int *size);
+void insert (char sentence[][maxSize], char word[], int place, int *size, int numberOfElements);
 void find (char sentence[][maxSize], char character, int size);
 void quit (char sentence[][maxSize], int size);
 
 int main(){
 	int place;
 	int size;
+	int temp;
 	char choice, character;
 	
 	printf("Enter size\n");
@@ -24,10 +25,10 @@ int main(){
 
 	for(int i=0; i<size; i++){
 		scanf("%s", string[i]);
+		temp = i;
 	}	
 
-	while (choice != 'Q'){
-
+	do {
 		printf("Enter D-I-F-Q\n");
 		scanf(" %c", &choice);
 
@@ -42,7 +43,7 @@ int main(){
 				scanf("%s", letter);
 				printf("Enter where to add\n");
 				scanf("%d", &place);
-				insert(string, letter, place, &size);
+				insert(string, letter, place, &size, temp);
 				break;
 			case 'F':
 				printf("Enter character to find.\n");
@@ -57,22 +58,28 @@ int main(){
 				printf("You did not pick the right letter\n");	
 				break;
 		}
-	}
+	} while (choice != 'Q');
 }
 
 void delete (char sentence[][maxSize], char word[], int *size){
-	int temp;
-	for(int i=0; i< *size; i++){
+	int foundFlag = 0;
+
+	for(int i=0; i< *size - 1; i++){
 		if (strcmp(sentence[i],word)==0){
-			temp = i;
+			foundFlag = 1;
+		}
+
+		if (foundFlag == 1) {
+			strcpy(sentence[i], sentence[i + 1]);
 		}
 	}
-	printf("%d\n", temp);
 
-	for(int j=0; j< *size-1; j++){
-		strcpy(sentence[temp+j], sentence[temp+1+j]);
+	if (foundFlag == 1) {
+		--*size;
+	} else if (strcmp(sentence[*size - 1],word)==0) {
+		strcpy(sentence[*size - 1], "");
+		--*size;
 	}
-	--*size;
 
 	printf("After: ");
 	for(int i=0; i< *size; i++){
@@ -80,9 +87,22 @@ void delete (char sentence[][maxSize], char word[], int *size){
 	}
 	printf("\n");
 }
-void insert (char sentence[][maxSize], char word[], int place, int *size){
+void insert (char sentence[][maxSize], char word[], int place, int *size, int numberOfElements){
+
+	int returnFlag = 1;
+	
+	while (returnFlag = 0){
+		if (temp == *size){
+		printf("The array is full, delete an element firstly.\n");
+		returnFlag = 1;
+		}
+	}
 	for(int i=0; i<*size-place; i++){
 		strcpy(sentence[*size+i],sentence[*size-1+i]);
+	}
+
+	for(int i = *size-1; i >= place; --i ) {
+		strcpy(sentence[i + 1], sentence[i])
 	}
 
 	strcpy (sentence[place],word);
