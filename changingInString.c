@@ -5,14 +5,13 @@
 #define maxSize 10
 
 void delete (char sentence[][maxSize], char word[], int *size);
-void insert (char sentence[][maxSize], char word[], int place, int *size, int numberOfElements);
+void insert (char sentence[][maxSize], char word[], int place, int *size);
 void find (char sentence[][maxSize], char character, int size);
 void quit (char sentence[][maxSize], int size);
 
 int main(){
 	int place;
 	int size;
-	int temp;
 	char choice, character;
 	
 	printf("Enter size\n");
@@ -25,7 +24,6 @@ int main(){
 
 	for(int i=0; i<size; i++){
 		scanf("%s", string[i]);
-		temp = i;
 	}	
 
 	do {
@@ -43,7 +41,7 @@ int main(){
 				scanf("%s", letter);
 				printf("Enter where to add\n");
 				scanf("%d", &place);
-				insert(string, letter, place, &size, temp);
+				insert(string, letter, place, &size);
 				break;
 			case 'F':
 				printf("Enter character to find.\n");
@@ -87,16 +85,7 @@ void delete (char sentence[][maxSize], char word[], int *size){
 	}
 	printf("\n");
 }
-void insert (char sentence[][maxSize], char word[], int place, int *size, int numberOfElements){
-
-	int returnFlag = 1;
-	
-	while (returnFlag = 0){
-		if (temp == *size){
-		printf("The array is full, delete an element firstly.\n");
-		returnFlag = 1;
-		}
-	}
+void insert (char sentence[][maxSize], char word[], int place, int *size){
 	for(int i=0; i<*size-place; i++){
 		strcpy(sentence[*size+i],sentence[*size-1+i]);
 	}
